@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tic Tac Toe — Game Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <a class="back" href="index.html">
+      <span class="back-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M15 5 L8 12 L15 19"/></svg>
+      </span>
+      All games
+    </a>
+
+    <header class="head">
+      <h1>Tic Tac Toe</h1>
+      <p class="status" id="status" aria-live="polite">X to play</p>
+    </header>
+
+    <div class="modes" role="group" aria-label="Game mode">
+      <button class="mode is-active" data-mode="cpu" type="button">vs Computer</button>
+      <button class="mode" data-mode="human" type="button">2 Players</button>
+    </div>
+
+    <div class="board" id="board" role="grid" aria-label="Game board">
+      <!-- cells injected by app.js -->
+    </div>
+
+    <section class="scores" aria-label="Scores">
+      <div class="score">
+        <span class="score-label">X</span>
+        <span class="score-value" id="score-x">0</span>
+      </div>
+      <div class="score">
+        <span class="score-label">Draws</span>
+        <span class="score-value" id="score-d">0</span>
+      </div>
+      <div class="score">
+        <span class="score-label">O</span>
+        <span class="score-value" id="score-o">0</span>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button class="btn" id="new-round" type="button">New round</button>
+      <button class="btn btn-ghost" id="reset-all" type="button">Reset scores</button>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
