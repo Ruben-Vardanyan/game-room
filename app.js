@@ -8,12 +8,27 @@ const boardEl = document.getElementById('board');
 const statusEl = document.getElementById('status');
 const scoreEls = { X: document.getElementById('score-x'), O: document.getElementById('score-o'), D: document.getElementById('score-d') };
 
+const CPU_DELAY = 320;      // pause before the computer answers
+const NEXT_ROUND_DELAY = 2000;  // how long the result stays on screen
+
 let board = Array(9).fill('');
 let turn = 'X';
 let over = false;
 let mode = 'cpu';           // 'cpu' | 'human'
 let starter = 'X';          // alternates each round
 const scores = { X: 0, O: 0, D: 0 };
+
+// Pending timers must be cancellable: a CPU move or auto-restart left over from
+// the previous round would otherwise fire onto a fresh board.
+let cpuTimer = null;
+let nextRoundTimer = null;
+
+function clearTimers() {
+  clearTimeout(cpuTimer);
+  clearTimeout(nextRoundTimer);
+  cpuTimer = null;
+  nextRoundTimer = null;
+}
 
 // --- rendering -------------------------------------------------------------
 
@@ -61,7 +76,7 @@ function play(i) {
   move(i);
   if (!over && mode === 'cpu' && turn === 'O') {
     setStatus('Computer thinking…');
-    setTimeout(() => move(bestMove(board, 'O')), 320);
+    cpuTimer = setTimeout(() => { cpuTimer = null; move(bestMove(board, 'O')); }, CPU_DELAY);
   }
 }
 
@@ -76,13 +91,15 @@ function move(i) {
       const who = mode === 'cpu'
         ? (result.player === 'X' ? 'You win!' : 'Computer wins')
         : `${result.player} wins!`;
-      setStatus(who, result.player);
+      setStatus(`${who} — next round…`, result.player);
     } else {
       scores.D++;
-      setStatus("It's a draw");
+      setStatus("It's a draw — next round…");
     }
     render();
     result.line.forEach(n => cells[n].classList.add('win'));
+    // hold the result on screen, then deal a fresh board
+    nextRoundTimer = setTimeout(() => { nextRoundTimer = null; newRound(); }, NEXT_ROUND_DELAY);
     return;
   }
 
@@ -132,6 +149,7 @@ function minimax(b, current, me, depth) {
 // --- round / controls ------------------------------------------------------
 
 function newRound(alternate = true) {
+  clearTimers();
   board = Array(9).fill('');
   over = false;
   if (alternate) starter = starter === 'X' ? 'O' : 'X';
@@ -139,7 +157,7 @@ function newRound(alternate = true) {
   render();
   setStatus(turnText());
   if (mode === 'cpu' && turn === 'O') {
-    setTimeout(() => move(bestMove(board, 'O')), 320);
+    cpuTimer = setTimeout(() => { cpuTimer = null; move(bestMove(board, 'O')); }, CPU_DELAY);
   }
 }
 
