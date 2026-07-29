@@ -7,9 +7,11 @@ const LINES = [
 const boardEl = document.getElementById('board');
 const statusEl = document.getElementById('status');
 const scoreEls = { X: document.getElementById('score-x'), O: document.getElementById('score-o'), D: document.getElementById('score-d') };
+const resultEl = document.getElementById('result');
+const resultTitleEl = document.getElementById('result-title');
 
 const CPU_DELAY = 320;      // pause before the computer answers
-const NEXT_ROUND_DELAY = 2000;  // how long the result stays on screen
+const NEXT_ROUND_DELAY = 2400;  // how long the result stays on screen
 
 let board = Array(9).fill('');
 let turn = 'X';
@@ -60,6 +62,20 @@ function setStatus(text, winner) {
   statusEl.className = 'status' + (winner ? ' win-' + winner.toLowerCase() : '');
 }
 
+// The banner replays its entrance animation each time it is shown.
+function showResult(title, winner) {
+  resultTitleEl.textContent = title;
+  resultTitleEl.className = 'result-title' + (winner ? ' win-' + winner.toLowerCase() : '');
+  resultEl.hidden = false;
+  resultEl.style.animation = 'none';
+  void resultEl.offsetWidth;
+  resultEl.style.animation = '';
+}
+
+function hideResult() {
+  resultEl.hidden = true;
+}
+
 // --- game logic ------------------------------------------------------------
 
 function winnerOf(b) {
@@ -89,12 +105,14 @@ function move(i) {
     if (result.player) {
       scores[result.player]++;
       const who = mode === 'cpu'
-        ? (result.player === 'X' ? 'You win!' : 'Computer wins')
+        ? (result.player === 'X' ? 'You win!' : 'Computer wins!')
         : `${result.player} wins!`;
       setStatus(`${who} — next round…`, result.player);
+      showResult(who, result.player);
     } else {
       scores.D++;
       setStatus("It's a draw — next round…");
+      showResult("It's a draw");
     }
     render();
     result.line.forEach(n => cells[n].classList.add('win'));
@@ -150,6 +168,7 @@ function minimax(b, current, me, depth) {
 
 function newRound(alternate = true) {
   clearTimers();
+  hideResult();
   board = Array(9).fill('');
   over = false;
   if (alternate) starter = starter === 'X' ? 'O' : 'X';

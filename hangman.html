@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hangman — Game Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=11">
+</head>
+<body>
+  <main class="app">
+    <a class="back" href="index.html">All games</a>
+
+    <header class="head">
+      <h1>Hangman</h1>
+      <p class="status" id="status" aria-live="polite">Guess the word</p>
+    </header>
+
+    <div class="board-wrap">
+      <div class="gallows">
+        <!-- Gallows is always drawn; the figure appears one part per wrong guess. -->
+        <svg viewBox="0 0 200 200" role="img" aria-labelledby="gallows-desc">
+          <title id="gallows-desc">Hangman drawing</title>
+          <g class="frame">
+            <path d="M20 186 H104" />
+            <path d="M42 186 V18" />
+            <path d="M42 18 H132" />
+            <path d="M132 18 V38" />
+          </g>
+          <g class="figure" id="figure">
+            <circle class="part" data-part="1" cx="132" cy="52" r="14" />
+            <path   class="part" data-part="2" d="M132 66 V116" />
+            <path   class="part" data-part="3" d="M132 78 L110 100" />
+            <path   class="part" data-part="4" d="M132 78 L154 100" />
+            <path   class="part" data-part="5" d="M132 116 L112 152 M132 116 L152 152" />
+          </g>
+        </svg>
+      </div>
+
+      <!-- End-of-round announcement; the status line carries it for screen readers -->
+      <div class="result" id="result" hidden aria-hidden="true">
+        <p class="result-title" id="result-title"></p>
+        <p class="result-sub" id="result-sub"></p>
+      </div>
+    </div>
+
+    <section class="puzzle" aria-label="Word to guess">
+      <p class="word" id="word" aria-live="polite"></p>
+      <p class="hint" id="hint"></p>
+    </section>
+
+    <section class="lives" aria-label="Lives remaining">
+      <span class="lives-label">Lives</span>
+      <span class="pips" id="pips" role="img" aria-label="5 of 5 lives left"></span>
+    </section>
+
+    <div class="keys" id="keys" role="group" aria-label="Letters">
+      <!-- letter buttons injected by hangman.js -->
+    </div>
+
+    <section class="scores two" aria-label="Scores">
+      <div class="score">
+        <span class="score-label">Won</span>
+        <span class="score-value" id="score-w">0</span>
+      </div>
+      <div class="score">
+        <span class="score-label">Lost</span>
+        <span class="score-value" id="score-l">0</span>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button class="btn" id="new-word" type="button">New word</button>
+      <button class="btn btn-ghost" id="reset-all" type="button">Reset scores</button>
+    </div>
+  </main>
+
+  <!-- ?v= must be bumped whenever hangman.js or styles.css change, or browsers serve a stale cached copy -->
+  <script src="hangman.js?v=2"></script>
+</body>
+</html>

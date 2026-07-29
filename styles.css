@@ -7,6 +7,7 @@
   --muted: #a7b0c4;
   --x: #6ea8fe;
   --o: #ffb86b;
+  --danger: #ff8080;
   --accent: #6ea8fe;
   --radius: 16px;
   --ease: cubic-bezier(.22, .61, .36, 1);
@@ -64,6 +65,7 @@ h1 {
 
 .status.win-x { color: var(--x); }
 .status.win-o { color: var(--o); }
+.status.is-lost { color: var(--danger); }
 
 /* Back button - text only, centered */
 .back {
@@ -185,6 +187,8 @@ a.menu-btn:focus-visible {
 }
 
 /* Board */
+.board-wrap { position: relative; }
+
 .board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -243,12 +247,435 @@ a.menu-btn:focus-visible {
   to   { opacity: 1; transform: scale(1); }
 }
 
+/* End-of-round announcement */
+.result {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: var(--radius);
+  background: rgba(16, 19, 26, .58);
+  backdrop-filter: blur(2px);
+  text-align: center;
+  padding: 16px;
+  animation: result-in .3s var(--ease) both;
+}
+
+.result[hidden] { display: none; }
+
+/* The Snake LCD is light, so the shared scrim would drop the result text below
+   4.5:1. Over that screen it needs to be near-opaque. */
+.result-lcd { background: rgba(16, 19, 26, .92); }
+
+.result-title {
+  margin: 0;
+  font-family: Fraunces, Georgia, serif;
+  font-size: 32px;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.result-title.win-x { color: var(--x); }
+.result-title.win-o { color: var(--o); }
+.result-title.is-lost { color: var(--danger); }
+
+.result-sub {
+  margin: 0;
+  font-size: 16px;
+  color: var(--muted);
+}
+
+@keyframes result-in {
+  from { opacity: 0; transform: scale(.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Hangman - gallows */
+.gallows {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 8px;
+}
+
+.gallows svg {
+  display: block;
+  width: 100%;
+  max-height: 240px;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.gallows .frame {
+  stroke: var(--line);
+  stroke-width: 6;
+}
+
+.gallows .figure {
+  stroke: var(--text);
+  stroke-width: 5;
+}
+
+/* Parts are drawn as wrong guesses land, so they start hidden. */
+.gallows .part {
+  opacity: 0;
+  transition: opacity .3s var(--ease), stroke .3s var(--ease);
+}
+
+.gallows .part.is-on {
+  opacity: 1;
+  animation: pop .3s var(--ease) both;
+}
+
+.gallows .figure.is-dead { stroke: var(--danger); }
+
+/* Hangman - word and clue */
+.puzzle {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.word {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.letter {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-width: 24px;
+  min-height: 32px;
+  border-bottom: 2px solid var(--line);
+  font-family: Fraunces, Georgia, serif;
+  font-size: 24px;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.letter.is-shown { animation: pop .25s var(--ease) both; }
+
+/* Letters never guessed are revealed in red when the round is lost. */
+.letter.is-missed { color: var(--danger); }
+
+.hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+  max-width: 36ch;
+  margin-inline: auto;
+}
+
+/* Hangman - lives */
+.lives {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.lives-label {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.pips {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.pip {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--x);
+  transition: background .3s var(--ease), transform .3s var(--ease);
+}
+
+.pip.is-gone {
+  background: var(--line);
+  transform: scale(.7);
+}
+
+/* Hangman - letter keyboard */
+.keys {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.key {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  min-height: 44px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background .2s var(--ease), color .2s var(--ease),
+              border-color .2s var(--ease), transform .15s var(--ease);
+}
+
+.key:hover:not(:disabled) {
+  background: var(--surface-2);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.key:active:not(:disabled) { transform: scale(.97); }
+
+.key:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.key:disabled { cursor: default; }
+
+.key.is-hit {
+  background: var(--surface-2);
+  border-color: var(--x);
+  color: var(--x);
+}
+
+.key.is-miss {
+  background: #151a23;
+  border-color: #2c3446;
+  color: #8b95a9;
+}
+
+/* Connect Four - 7x6 board */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 8px;
+}
+
+.slot {
+  appearance: none;
+  border: 0;
+  background: var(--surface-2);
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background .2s var(--ease);
+}
+
+.slot:hover:not(:disabled) { background: #29334a; }
+.slot:disabled { cursor: default; }
+
+.slot:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.disc {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: transparent;
+  transition: background .2s var(--ease);
+}
+
+.slot.r .disc { background: var(--x); }
+.slot.y .disc { background: var(--o); }
+
+/* The winning four keep a ring so they read even against the result scrim.
+   It sits on the disc, not the slot - the disc covers the slot completely. */
+.slot.win { background: #303c56; }
+
+.slot.win .disc {
+  box-shadow: inset 0 0 0 4px var(--bg);
+}
+
+.disc.is-dropping {
+  animation: drop-in .32s var(--ease) both;
+}
+
+@keyframes drop-in {
+  from { transform: translateY(calc(var(--rows, 1) * -104%)); }
+  to   { transform: translateY(0); }
+}
+
+/* Memory Match - 4x3 board */
+.memory {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 8px;
+}
+
+.card {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  aspect-ratio: 1 / 1;
+  min-height: 44px;
+  perspective: 600px;
+  cursor: pointer;
+}
+
+.card:disabled { cursor: default; }
+
+.card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 12px;
+}
+
+.card-inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform .4s var(--ease);
+}
+
+.card.is-up .card-inner { transform: rotateY(180deg); }
+
+.card-back,
+.card-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  backface-visibility: hidden;
+}
+
+.card-back {
+  background: var(--surface-2);
+  transition: background .2s var(--ease);
+}
+
+/* A single muted dot keeps the face-down side quiet but not blank. */
+.card-back::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+}
+
+.card:hover:not(:disabled) .card-back { background: #29334a; }
+.card:active:not(:disabled) .card-inner { transform: scale(.97); }
+.card.is-up:active:not(:disabled) .card-inner { transform: rotateY(180deg) scale(.97); }
+
+.card-face {
+  background: #29334a;
+  transform: rotateY(180deg);
+  font-size: 32px;
+  line-height: 1;
+}
+
+.card-face[data-tone="a"] { color: #6ea8fe; }
+.card-face[data-tone="b"] { color: #ffb86b; }
+.card-face[data-tone="c"] { color: #7ee0a8; }
+.card-face[data-tone="d"] { color: #c39bff; }
+.card-face[data-tone="e"] { color: #ff9ec4; }
+.card-face[data-tone="f"] { color: #6fe3e1; }
+
+/* Matched pairs settle back to recede behind the ones still in play. */
+.card.is-done .card-face {
+  background: var(--surface-2);
+  opacity: .55;
+}
+
+/* Snake - Nokia LCD panel */
+.lcd {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 8px;
+}
+
+.lcd canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  image-rendering: pixelated;   /* keep the blocky pixels crisp when scaled up */
+  touch-action: none;           /* swipes steer the snake, they don't scroll */
+}
+
+/* Snake - direction pad */
+.dpad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  /* width is explicit: an auto inline margin on a column flex item cancels the
+     default stretch, which would shrink the pad to its content width */
+  width: 100%;
+  max-width: 232px;
+  margin-inline: auto;
+}
+
+.pad {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1;
+  min-height: 56px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background .2s var(--ease), color .2s var(--ease),
+              border-color .2s var(--ease), transform .15s var(--ease);
+}
+
+.pad:hover {
+  background: var(--surface-2);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.pad:active { transform: scale(.96); }
+
+.pad:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.pad-up    { grid-column: 2; grid-row: 1; }
+.pad-left  { grid-column: 1; grid-row: 2; }
+.pad-right { grid-column: 3; grid-row: 2; }
+.pad-down  { grid-column: 2; grid-row: 3; }
+
 /* Scores */
 .scores {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
 }
+
+.scores.two { grid-template-columns: repeat(2, 1fr); }
 
 .score {
   background: var(--surface);
