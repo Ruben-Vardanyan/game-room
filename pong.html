@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bird Shoot — Game Room</title>
+<title>Ping Pong — Game Room</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -14,16 +14,16 @@
     <a class="back" href="index.html">All games</a>
 
     <header class="head">
-      <h1>Bird Shoot</h1>
-      <p class="status" id="status" aria-live="polite">Tap a bird to shoot it</p>
+      <h1>Ping Pong</h1>
+      <p class="status" id="status" aria-live="polite">First to 7 wins</p>
     </header>
 
     <div class="board-wrap">
-      <div class="sky">
-        <canvas id="sky" width="360" height="270" role="img" aria-label="Sky with flying birds"></canvas>
+      <div class="table">
+        <canvas id="table" width="360" height="240" role="img" aria-label="Ping pong table"></canvas>
       </div>
 
-      <!-- End-of-round announcement; the status line carries it for screen readers -->
+      <!-- End-of-match announcement; the status line carries it for screen readers -->
       <div class="result" id="result" hidden aria-hidden="true">
         <p class="result-title" id="result-title"></p>
         <p class="result-sub" id="result-sub"></p>
@@ -32,26 +32,31 @@
 
     <section class="scores" aria-label="Scores">
       <div class="score">
-        <span class="score-label">Shot</span>
-        <span class="score-value" id="score">0</span>
+        <span class="score-label">You</span>
+        <span class="score-value" id="you">0</span>
       </div>
       <div class="score">
-        <span class="score-label">Escaped</span>
-        <span class="score-value" id="escaped">0/3</span>
+        <span class="score-label">Computer</span>
+        <span class="score-value" id="cpu">0</span>
       </div>
       <div class="score">
-        <span class="score-label">Best</span>
+        <span class="score-label">Best rally</span>
         <span class="score-value" id="best">—</span>
       </div>
     </section>
 
+    <div class="dpad dpad-updown" role="group" aria-label="Bat controls">
+      <button class="pad pad-up"   type="button" data-hold="up"   aria-label="Move up">▲</button>
+      <button class="pad pad-down" type="button" data-hold="down" aria-label="Move down">▼</button>
+    </div>
+
     <div class="actions">
-      <button class="btn btn-ghost" id="restart" type="button">New game</button>
+      <button class="btn btn-ghost" id="restart" type="button">New match</button>
       <button class="btn btn-ghost" id="reset-best" type="button">Reset best</button>
     </div>
   </main>
 
-  <!-- ?v= must be bumped whenever birds.js or styles.css change, or browsers serve a stale cached copy -->
-  <script src="birds.js?v=1"></script>
+  <!-- ?v= must be bumped whenever pong.js or styles.css change, or browsers serve a stale cached copy -->
+  <script src="pong.js?v=1"></script>
 </body>
 </html>
