@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tank Battle — Game Room</title>
+<title>Bird Shoot — Game Room</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -14,13 +14,13 @@
     <a class="back" href="index.html">All games</a>
 
     <header class="head">
-      <h1>Tank Battle</h1>
-      <p class="status" id="status" aria-live="polite">Drive, aim and fire</p>
+      <h1>Bird Shoot</h1>
+      <p class="status" id="status" aria-live="polite">Tap a bird to shoot it</p>
     </header>
 
     <div class="board-wrap">
-      <div class="arena">
-        <canvas id="arena" width="360" height="360" role="img" aria-label="Battle arena"></canvas>
+      <div class="sky">
+        <canvas id="sky" width="360" height="270" role="img" aria-label="Sky with flying birds"></canvas>
       </div>
 
       <!-- End-of-round announcement; the status line carries it for screen readers -->
@@ -32,12 +32,12 @@
 
     <section class="scores" aria-label="Scores">
       <div class="score">
-        <span class="score-label">Kills</span>
+        <span class="score-label">Shot</span>
         <span class="score-value" id="score">0</span>
       </div>
       <div class="score">
-        <span class="score-label">Lives</span>
-        <span class="score-value" id="lives">3</span>
+        <span class="score-label">Escaped</span>
+        <span class="score-value" id="escaped">0/3</span>
       </div>
       <div class="score">
         <span class="score-label">Best</span>
@@ -45,24 +45,13 @@
       </div>
     </section>
 
-    <div class="dpad" role="group" aria-label="Drive controls">
-      <button class="pad pad-up"    type="button" data-hold="fwd"   aria-label="Forward">▲</button>
-      <button class="pad pad-left"  type="button" data-hold="left"  aria-label="Turn left">◀</button>
-      <button class="pad pad-right" type="button" data-hold="right" aria-label="Turn right">▶</button>
-      <button class="pad pad-down"  type="button" data-hold="back"  aria-label="Reverse">▼</button>
-    </div>
-
-    <div class="actions one">
-      <button class="btn" id="fire" type="button" data-hold="fire">Fire</button>
-    </div>
-
     <div class="actions">
       <button class="btn btn-ghost" id="restart" type="button">New game</button>
       <button class="btn btn-ghost" id="reset-best" type="button">Reset best</button>
     </div>
   </main>
 
-  <!-- ?v= must be bumped whenever tanks.js or styles.css change, or browsers serve a stale cached copy -->
-  <script src="tanks.js?v=1"></script>
+  <!-- ?v= must be bumped whenever birds.js or styles.css change, or browsers serve a stale cached copy -->
+  <script src="birds.js?v=1"></script>
 </body>
 </html>

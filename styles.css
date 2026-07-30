@@ -645,9 +645,10 @@ a.menu-btn:focus-visible {
   touch-action: none;           /* swipes steer the snake, they don't scroll */
 }
 
-/* Darts and Tank Battle - like the LCD panel, but smoothed: these are drawn
+/* Darts, Tank Battle and Bird Shoot - like the LCD panel, but smoothed: these are drawn
    with curves rather than pixel art, so they must not be rendered pixelated. */
 .dartboard,
+.sky,
 .arena {
   background: var(--surface);
   border: 1px solid var(--line);
@@ -656,6 +657,7 @@ a.menu-btn:focus-visible {
 }
 
 .dartboard canvas,
+.sky canvas,
 .arena canvas {
   display: block;
   width: 100%;
