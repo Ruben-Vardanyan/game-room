@@ -92,7 +92,7 @@ function play(i) {
   move(i);
   if (!over && mode === 'cpu' && turn === 'O') {
     setStatus('Computer thinking…');
-    cpuTimer = setTimeout(() => { cpuTimer = null; move(bestMove(board, 'O')); }, CPU_DELAY);
+    cpuTimer = setTimeout(() => { cpuTimer = null; move(cpuMove(board, 'O')); }, CPU_DELAY);
   }
 }
 
@@ -131,7 +131,38 @@ function turnText() {
   return `${turn} to play`;
 }
 
-// --- perfect CPU (minimax) -------------------------------------------------
+// --- CPU -------------------------------------------------------------------
+
+// Minimax alone plays perfectly, and perfect tic tac toe is a draw at best -
+// that reads as "impossible" rather than "hard". So the computer plays well but
+// is fallible: it always takes a win that is on offer (missing one looks
+// broken), and otherwise plays at random some of the time. Those random moves
+// are the missed blocks you win through.
+const CPU_MISTAKE = 0.4;
+
+function winningMove(b, me) {
+  for (let i = 0; i < 9; i++) {
+    if (b[i]) continue;
+    b[i] = me;
+    const r = winnerOf(b);
+    b[i] = '';
+    if (r && r.player === me) return i;
+  }
+  return -1;
+}
+
+function randomMove(b) {
+  const free = [];
+  for (let i = 0; i < 9; i++) if (!b[i]) free.push(i);
+  return free[Math.floor(Math.random() * free.length)];
+}
+
+function cpuMove(b, me) {
+  const win = winningMove(b, me);
+  if (win !== -1) return win;
+  if (Math.random() < CPU_MISTAKE) return randomMove(b);
+  return bestMove(b, me);
+}
 
 function bestMove(b, me) {
   let bestScore = -Infinity;
@@ -176,7 +207,7 @@ function newRound(alternate = true) {
   render();
   setStatus(turnText());
   if (mode === 'cpu' && turn === 'O') {
-    cpuTimer = setTimeout(() => { cpuTimer = null; move(bestMove(board, 'O')); }, CPU_DELAY);
+    cpuTimer = setTimeout(() => { cpuTimer = null; move(cpuMove(board, 'O')); }, CPU_DELAY);
   }
 }
 
