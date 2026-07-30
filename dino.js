@@ -5,7 +5,8 @@ const START_SPEED = 62;     // virtual pixels per second
 const MAX_SPEED = 132;
 const ACCEL = 1.6;          // speed gained per second of running
 const GRAVITY = 300;        // px/s^2
-const JUMP_V = -110;        // initial upward velocity
+// Peaks ~26px up, so even the 16px cactus clears with room to spare.
+const JUMP_V = -125;        // initial upward velocity
 const DUCK_GRAVITY = 620;   // holding duck mid-air drops you fast, like the original
 const READY_DELAY = 2200;   // how long Game Over stays before a fresh track is dealt
 
@@ -195,7 +196,8 @@ function spawnObstacle() {
 
 function scheduleSpawn() {
   // Gap measured in seconds of travel, so it stays fair as the speed climbs.
-  nextSpawn = speed * (0.95 + Math.random() * 0.95);
+  // The floor must clear one full jump (~0.83s) or you land into the next cactus.
+  nextSpawn = speed * (1.1 + Math.random() * 0.95);
 }
 
 function render() {
