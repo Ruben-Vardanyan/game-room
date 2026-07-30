@@ -100,6 +100,13 @@ h1 {
   outline-offset: 2px;
 }
 
+/* Home page - credit line under the menu */
+.credit {
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+}
+
 /* Game menu - compact text buttons, no icons */
 .menu {
   display: flex;
