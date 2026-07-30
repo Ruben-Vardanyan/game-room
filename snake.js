@@ -1,9 +1,9 @@
 // Nokia rules: the wall kills you. No wrapping, no levels - just get longer.
 const GRID = 16;            // cells per side
 const CELL = 16;            // pixels per cell in the canvas' own coordinates
-const START_SPEED = 200;    // ms per step
-const MIN_SPEED = 90;
-const SPEED_STEP = 6;       // faster per apple eaten
+const START_SPEED = 260;    // ms per step
+const MIN_SPEED = 130;      // the fastest it ever gets, ~8 cells a second
+const SPEED_STEP = 4;       // faster per apple eaten
 const READY_DELAY = 2200;   // how long Game Over stays before a fresh board is dealt
 
 // LCD palette - grey-green screen, near-black pixels
