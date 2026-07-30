@@ -645,21 +645,23 @@ a.menu-btn:focus-visible {
   touch-action: none;           /* swipes steer the snake, they don't scroll */
 }
 
-/* Darts - like the LCD panel, but smoothed: the board is drawn with curves
-   rather than pixel art, so it must not be rendered pixelated. */
-.dartboard {
+/* Darts and Tank Battle - like the LCD panel, but smoothed: these are drawn
+   with curves rather than pixel art, so they must not be rendered pixelated. */
+.dartboard,
+.arena {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 8px;
 }
 
-.dartboard canvas {
+.dartboard canvas,
+.arena canvas {
   display: block;
   width: 100%;
   height: auto;
   border-radius: 8px;
-  touch-action: none;           /* tapping throws, it does not scroll */
+  touch-action: none;           /* tapping plays, it does not scroll */
 }
 
 /* Snake - direction pad */
