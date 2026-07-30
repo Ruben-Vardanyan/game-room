@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dino Run — Game Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=11">
+</head>
+<body>
+  <main class="app">
+    <a class="back" href="index.html">All games</a>
+
+    <header class="head">
+      <h1>Dino Run</h1>
+      <p class="status" id="status" aria-live="polite">Tap the track or press space to run</p>
+    </header>
+
+    <div class="board-wrap">
+      <div class="lcd">
+        <!-- Fixed 200x60 virtual pixel grid, scaled up - keeps the blocky look -->
+        <canvas id="screen" width="200" height="60" role="img" aria-label="Dino running track"></canvas>
+      </div>
+
+      <!-- End-of-round announcement; the status line carries it for screen readers -->
+      <div class="result result-lcd" id="result" hidden aria-hidden="true">
+        <p class="result-title" id="result-title"></p>
+        <p class="result-sub" id="result-sub"></p>
+      </div>
+    </div>
+
+    <section class="scores two" aria-label="Scores">
+      <div class="score">
+        <span class="score-label">Score</span>
+        <span class="score-value" id="score">0</span>
+      </div>
+      <div class="score">
+        <span class="score-label">Best</span>
+        <span class="score-value" id="best">0</span>
+      </div>
+    </section>
+
+    <div class="actions" role="group" aria-label="Controls">
+      <button class="btn" id="jump" type="button">Jump</button>
+      <button class="btn btn-ghost" id="duck" type="button">Duck</button>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-ghost" id="restart" type="button">New game</button>
+      <button class="btn btn-ghost" id="reset-best" type="button">Reset best</button>
+    </div>
+  </main>
+
+  <!-- ?v= must be bumped whenever dino.js or styles.css change, or browsers serve a stale cached copy -->
+  <script src="dino.js?v=1"></script>
+</body>
+</html>
