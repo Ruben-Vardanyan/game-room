@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=12">
+<link rel="stylesheet" href="styles.css?v=13">
 </head>
 <body>
   <main class="app">
@@ -15,11 +15,11 @@
 
     <header class="head">
       <h1>Memory Match</h1>
-      <p class="status" id="status" aria-live="polite">Find the six pairs</p>
+      <p class="status" id="status" aria-live="polite">Find the eight pairs</p>
     </header>
 
     <div class="board-wrap">
-      <div class="memory" id="memory" role="group" aria-label="Memory board, 4 by 3">
+      <div class="memory" id="memory" role="group" aria-label="Memory board, 4 by 4">
         <!-- cards injected by memory.js -->
       </div>
 
@@ -52,6 +52,6 @@
   </main>
 
   <!-- ?v= must be bumped whenever memory.js or styles.css change, or browsers serve a stale cached copy -->
-  <script src="memory.js?v=1"></script>
+  <script src="memory.js?v=2"></script>
 </body>
 </html>

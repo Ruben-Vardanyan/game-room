@@ -612,6 +612,8 @@ a.menu-btn:focus-visible {
 .card-face[data-tone="d"] { color: #c39bff; }
 .card-face[data-tone="e"] { color: #ff9ec4; }
 .card-face[data-tone="f"] { color: #6fe3e1; }
+.card-face[data-tone="g"] { color: #ffe066; }
+.card-face[data-tone="h"] { color: #b6c2d9; }
 
 /* Matched pairs settle back to recede behind the ones still in play. */
 .card.is-done .card-face {

@@ -1,4 +1,4 @@
-// 4x3 board = 12 cards = 6 pairs. Each pair is told apart by shape AND colour,
+// 4x4 board = 16 cards = 8 pairs. Each pair is told apart by shape AND colour,
 // so the board still works if you cannot separate the colours.
 const SYMBOLS = [
   { glyph: '●', name: 'circle',   tone: 'a' },
@@ -7,7 +7,11 @@ const SYMBOLS = [
   { glyph: '◆', name: 'diamond',  tone: 'd' },
   { glyph: '★', name: 'star',     tone: 'e' },
   { glyph: '✚', name: 'cross',    tone: 'f' },
+  { glyph: '♥', name: 'heart',    tone: 'g' },
+  { glyph: '♠', name: 'spade',    tone: 'h' },
 ];
+
+const PAIRS = SYMBOLS.length;
 
 const PEEK_DELAY = 800;         // how long a wrong pair stays face up
 const NEXT_ROUND_DELAY = 2600;  // how long the win banner stays on screen
@@ -26,7 +30,9 @@ let picked = [];        // indexes of the cards currently face up
 let moves = 0;
 let pairs = 0;
 let locked = false;     // true while a wrong pair is being shown
-let best = Number(localStorage.getItem('memory-best') || 0);
+// The record is keyed by board size: a best from the old 4x3 board could be as
+// low as 6 moves, which 8 pairs can never beat, so it would stick forever.
+let best = Number(localStorage.getItem('memory-best-4x4') || 0);
 
 // A pending flip-back or auto-restart would otherwise fire onto a fresh board.
 let peekTimer = null;
@@ -41,7 +47,7 @@ function clearTimers() {
 
 // --- rendering -------------------------------------------------------------
 
-const cards = Array.from({ length: 12 }, (_, i) => {
+const cards = Array.from({ length: PAIRS * 2 }, (_, i) => {
   const b = document.createElement('button');
   b.className = 'card';
   b.type = 'button';
@@ -116,7 +122,7 @@ function pick(i) {
     deck[a].up = deck[b].up = false;
     picked = [];
     pairs++;
-    if (pairs === SYMBOLS.length) return win();
+    if (pairs === PAIRS) return win();
     render();
     setStatus('Match!', 'win-x');
     return;
@@ -132,7 +138,7 @@ function pick(i) {
     picked = [];
     locked = false;
     render();
-    setStatus('Find the six pairs');
+    setStatus('Find the eight pairs');
   }, PEEK_DELAY);
 }
 
@@ -141,7 +147,7 @@ function win() {
   const first = !best || moves < best;
   if (first) {
     best = moves;
-    localStorage.setItem('memory-best', String(best));
+    localStorage.setItem('memory-best-4x4', String(best));
   }
   render();
   setStatus(`All pairs found in ${moves} moves — new board…`, 'win-x');
@@ -170,14 +176,14 @@ function newGame() {
   pairs = 0;
   locked = false;
   render();
-  setStatus('Find the six pairs');
+  setStatus('Find the eight pairs');
 }
 
 document.getElementById('restart').addEventListener('click', () => newGame());
 
 document.getElementById('reset-best').addEventListener('click', () => {
   best = 0;
-  localStorage.removeItem('memory-best');
+  localStorage.removeItem('memory-best-4x4');
   render();
 });
 
