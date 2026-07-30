@@ -409,9 +409,21 @@ a.menu-btn:focus-visible {
 /* Hangman - letter keyboard */
 .keys {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
   gap: 4px;
 }
+
+/* Phone keyboard: rows of 10 / 9 / 7. Each key spans 2 of 20 columns so the
+   short rows can be inset by half a key the way a real handset staggers them,
+   while every key keeps the same width. */
+.key-row {
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  gap: 4px;
+}
+
+.key-row .key { grid-column: span 2; }
+.key-row-2 .key:first-child { grid-column-start: 2; }
+.key-row-3 .key:first-child { grid-column-start: 4; }
 
 .key {
   appearance: none;
