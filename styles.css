@@ -645,6 +645,23 @@ a.menu-btn:focus-visible {
   touch-action: none;           /* swipes steer the snake, they don't scroll */
 }
 
+/* Darts - like the LCD panel, but smoothed: the board is drawn with curves
+   rather than pixel art, so it must not be rendered pixelated. */
+.dartboard {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 8px;
+}
+
+.dartboard canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  touch-action: none;           /* tapping throws, it does not scroll */
+}
+
 /* Snake - direction pad */
 .dpad {
   display: grid;
@@ -725,6 +742,8 @@ a.menu-btn:focus-visible {
   grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
+
+.actions.one { grid-template-columns: 1fr; }
 
 .btn {
   appearance: none;

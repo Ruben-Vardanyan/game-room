@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Memory Match — Game Room</title>
+<title>Darts — Game Room</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -14,13 +14,14 @@
     <a class="back" href="index.html">All games</a>
 
     <header class="head">
-      <h1>Memory Match</h1>
-      <p class="status" id="status" aria-live="polite">Find the eight pairs</p>
+      <h1>Darts</h1>
+      <p class="status" id="status" aria-live="polite">Stop the sweeping line to aim</p>
     </header>
 
     <div class="board-wrap">
-      <div class="memory" id="memory" role="group" aria-label="Memory board, 4 by 4">
-        <!-- cards injected by memory.js -->
+      <div class="dartboard">
+        <!-- Real board proportions: 1 canvas unit = 1mm of a 170mm dartboard -->
+        <canvas id="board" width="400" height="400" role="img" aria-label="Dartboard"></canvas>
       </div>
 
       <!-- End-of-round announcement; the status line carries it for screen readers -->
@@ -32,12 +33,12 @@
 
     <section class="scores" aria-label="Scores">
       <div class="score">
-        <span class="score-label">Moves</span>
-        <span class="score-value" id="moves">0</span>
+        <span class="score-label">Dart</span>
+        <span class="score-value" id="dart">1/9</span>
       </div>
       <div class="score">
-        <span class="score-label">Pairs</span>
-        <span class="score-value" id="pairs">0</span>
+        <span class="score-label">Score</span>
+        <span class="score-value" id="score">0</span>
       </div>
       <div class="score">
         <span class="score-label">Best</span>
@@ -45,13 +46,17 @@
       </div>
     </section>
 
+    <div class="actions one">
+      <button class="btn" id="throw" type="button">Throw</button>
+    </div>
+
     <div class="actions">
-      <button class="btn" id="restart" type="button">New game</button>
+      <button class="btn btn-ghost" id="restart" type="button">New round</button>
       <button class="btn btn-ghost" id="reset-best" type="button">Reset best</button>
     </div>
   </main>
 
-  <!-- ?v= must be bumped whenever memory.js or styles.css change, or browsers serve a stale cached copy -->
-  <script src="memory.js?v=2"></script>
+  <!-- ?v= must be bumped whenever darts.js or styles.css change, or browsers serve a stale cached copy -->
+  <script src="darts.js?v=1"></script>
 </body>
 </html>
