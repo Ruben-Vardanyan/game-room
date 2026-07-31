@@ -645,13 +645,14 @@ a.menu-btn:focus-visible {
   touch-action: none;           /* swipes steer the snake, they don't scroll */
 }
 
-/* Darts, Tank Battle, Bird Shoot and Ping Pong - like the LCD panel, but smoothed:
-   these are drawn with curves rather than pixel art, so they must not be
-   rendered pixelated. */
+/* Darts, Tank Battle, Bird Shoot, Ping Pong and Maze - like the LCD panel, but
+   smoothed: these are drawn with curves rather than pixel art, so they must not
+   be rendered pixelated. */
 .dartboard,
 .sky,
 .arena,
-.table {
+.table,
+.maze {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -661,7 +662,8 @@ a.menu-btn:focus-visible {
 .dartboard canvas,
 .sky canvas,
 .arena canvas,
-.table canvas {
+.table canvas,
+.maze canvas {
   display: block;
   width: 100%;
   height: auto;

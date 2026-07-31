@@ -1,6 +1,6 @@
 # Game Room
 
-A little arcade of ten classic games that runs in a web browser. No sign-up,
+A little arcade of eleven classic games that runs in a web browser. No sign-up,
 no install, no adverts — open the page, pick a game, play.
 
 Everything works on a phone as well as a computer.
@@ -9,7 +9,7 @@ Everything works on a phone as well as a computer.
 
 ## Getting started
 
-Open **`index.html`** — that is the home page. It shows a list of the ten
+Open **`index.html`** — that is the home page. It shows a list of the eleven
 games; tap one to play it, and use the **All games** button at the top of any
 game to come back.
 
@@ -31,9 +31,14 @@ That is the whole thing. There is nothing to install and nothing to set up.
 | **Tank Battle** | Shoot the orange tanks before they shoot you | Arrows/WASD to drive, Space or **Fire** to shoot |
 | **Bird Shoot** | Shoot the birds crossing the sky | Tap straight onto a bird |
 | **Ping Pong** | Beat the computer to seven points | Drag on the table, ▲▼, or arrows/WS |
+| **Maze** | Walk out of the maze — each level is wider | Arrows/WASD, the pad, or drag on the maze |
 
 ### A few things worth knowing
 
+- **The Maze never ends.** Level 1 is 9 squares across; every level you escape
+  adds two more, up to 21. Hold a direction and you keep walking until a wall
+  stops you, and squares you have already crossed stay faintly marked, so dead
+  ends are easy to spot.
 - **Two-player mode.** Tic Tac Toe and Connect Four have a **2 Players** button
   at the top, so two people can play on the same screen. Otherwise you play the
   computer.
@@ -59,7 +64,7 @@ That is the whole thing. There is nothing to install and nothing to set up.
 
 ## Your scores
 
-Seven of the games remember your personal best on the device you played on:
+Eight of the games remember your personal best on the device you played on:
 
 | Game | What "best" means |
 |---|---|
@@ -70,6 +75,7 @@ Seven of the games remember your personal best on the device you played on:
 | Tank Battle | Most tanks destroyed |
 | Bird Shoot | Most birds shot |
 | Ping Pong | Longest rally |
+| Maze | Deepest level reached |
 
 Tic Tac Toe, Connect Four and Hangman keep a running tally of wins and losses
 while the page is open, but it starts again from zero when you reload.
@@ -107,6 +113,7 @@ darts.html      + darts.js       Darts
 tanks.html      + tanks.js       Tank Battle
 birds.html      + birds.js       Bird Shoot
 pong.html       + pong.js        Ping Pong
+maze.html       + maze.js        Maze
 ```
 
 Each game is one HTML page plus one JavaScript file, and nothing else. Games do
