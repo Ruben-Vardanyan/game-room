@@ -273,9 +273,10 @@ a.menu-btn:focus-visible {
 
 .result[hidden] { display: none; }
 
-/* The Snake LCD is light, so the shared scrim would drop the result text below
-   4.5:1. Over that screen it needs to be near-opaque. */
-.result-lcd { background: rgba(16, 19, 26, .92); }
+/* Over a light or busy board - the Snake LCD, the 2048 tiles - the shared scrim
+   would drop the result text below 4.5:1, so there it must be near-opaque. */
+.result-lcd,
+.result-solid { background: rgba(16, 19, 26, .92); }
 
 .result-title {
   margin: 0;
@@ -786,6 +787,97 @@ a.menu-btn:focus-visible {
 }
 
 .btn-ghost:hover { color: var(--text); }
+
+/* 2048 - 4x4 board of sliding tiles */
+.tiles-panel {
+  position: relative;
+  aspect-ratio: 1;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 8px;
+  touch-action: none;           /* swipes slide the tiles, they don't scroll */
+}
+
+/* The empty cells sit underneath; the tiles float over them. */
+.tile-grid {
+  position: absolute;
+  inset: 8px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.tile-slot {
+  background: #141a24;
+  border-radius: 12px;
+}
+
+.tiles {
+  position: absolute;
+  inset: 8px;
+}
+
+/* Tiles are placed by transform so moving one is a single eased slide.
+   A percentage here is a percentage of the tile itself, so one step across is
+   its own width plus the 8px gap. */
+.tile {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc((100% - 24px) / 4);
+  height: calc((100% - 24px) / 4);
+  transform: translate(calc(var(--x) * (100% + 8px)), calc(var(--y) * (100% + 8px)));
+  transition: transform .12s var(--ease);
+}
+
+/* The face carries the look and the pop animations - the tile itself is busy
+   holding the position, and one element cannot animate two transforms. */
+.tile-face {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1;
+  background: #2c3446;
+  color: var(--text);
+}
+
+/* Long numbers step down the type scale so they never crowd the tile. */
+.tile-face.d3 { font-size: 24px; }
+.tile-face.d4 { font-size: 20px; }
+
+/* Dark on light from 16 up - every pairing here clears 4.5:1. */
+.t-2    { background: #2c3446; }
+.t-4    { background: #3b4762; }
+.t-8    { background: #4c5f8f; }
+.t-16   { background: #6ea8fe; color: #10131a; }
+.t-32   { background: #9cc4ff; color: #10131a; }
+.t-64   { background: #ffb86b; color: #10131a; }
+.t-128  { background: #ffa14a; color: #10131a; }
+.t-256  { background: #ff8f2e; color: #10131a; }
+.t-512  { background: #ffd166; color: #10131a; }
+.t-1024 { background: #ffe08a; color: #10131a; }
+.t-2048,
+.t-big  { background: #f3ecdc; color: #10131a; }
+
+.tile-face.is-new    { animation: tile-in .18s var(--ease) both; }
+.tile-face.is-merged { animation: tile-pop .2s var(--ease); }
+
+@keyframes tile-in {
+  from { opacity: 0; transform: scale(.6); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes tile-pop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
 
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }

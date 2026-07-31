@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Snake — Game Room</title>
+<title>2048 — Game Room</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -14,18 +14,27 @@
     <a class="back" href="index.html">All games</a>
 
     <header class="head">
-      <h1>Snake</h1>
-      <p class="status" id="status" aria-live="polite">Swipe or press an arrow to start</p>
+      <h1>2048</h1>
+      <p class="status" id="status" aria-live="polite">Swipe or press an arrow to join the tiles</p>
     </header>
 
     <div class="board-wrap">
-      <div class="lcd">
-        <!-- Fixed 16x16 pixel grid, scaled up - keeps the blocky Nokia look -->
-        <canvas id="screen" width="256" height="256" role="img" aria-label="Snake board"></canvas>
+      <div class="tiles-panel" id="board" role="img" aria-label="2048 board">
+        <div class="tile-grid" aria-hidden="true">
+          <div class="tile-slot"></div><div class="tile-slot"></div>
+          <div class="tile-slot"></div><div class="tile-slot"></div>
+          <div class="tile-slot"></div><div class="tile-slot"></div>
+          <div class="tile-slot"></div><div class="tile-slot"></div>
+          <div class="tile-slot"></div><div class="tile-slot"></div>
+          <div class="tile-slot"></div><div class="tile-slot"></div>
+          <div class="tile-slot"></div><div class="tile-slot"></div>
+          <div class="tile-slot"></div><div class="tile-slot"></div>
+        </div>
+        <div class="tiles" id="tiles"></div>
       </div>
 
       <!-- End-of-round announcement; the status line carries it for screen readers -->
-      <div class="result result-lcd" id="result" hidden aria-hidden="true">
+      <div class="result result-solid" id="result" hidden aria-hidden="true">
         <p class="result-title" id="result-title"></p>
         <p class="result-sub" id="result-sub"></p>
       </div>
@@ -55,7 +64,7 @@
     </div>
   </main>
 
-  <!-- ?v= must be bumped whenever snake.js or styles.css change, or browsers serve a stale cached copy -->
-  <script src="snake.js?v=5"></script>
+  <!-- ?v= must be bumped whenever 2048.js or styles.css change, or browsers serve a stale cached copy -->
+  <script src="2048.js?v=1"></script>
 </body>
 </html>
